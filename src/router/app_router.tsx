@@ -3,6 +3,8 @@ import { createBrowserRouter, RouteObject } from "react-router-dom";
 
 import { Home, NotFound, SignIn, SignUp } from "../pages";
 import { AuthLayout, MainLayout } from "../layouts";
+import ProtectedRoute from "../components/common/ProtectedRoute";
+import UnProtectedRoute from "../components/common/UnProtectedRoute";
 
 
 export const paths = {
@@ -15,13 +17,13 @@ export const paths = {
 const routes: RouteObject[] = [
     {
         path: "", element: <MainLayout />, children: [
-            { path: paths.home, element: <Home /> }
+            { path: paths.home, element: <ProtectedRoute><Home /> </ProtectedRoute> }
         ]
     },
     {
         path: "", element: <AuthLayout />, children: [
-            { path: paths.signUp, element: <SignUp /> },
-            { path: paths.signIn, element: <SignIn /> }
+            { path: paths.signUp, element: <UnProtectedRoute><SignUp /></UnProtectedRoute> },
+            { path: paths.signIn, element: <UnProtectedRoute><SignIn /></UnProtectedRoute> }
         ]
     },
     {
