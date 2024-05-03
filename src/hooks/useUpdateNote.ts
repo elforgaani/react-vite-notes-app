@@ -7,13 +7,13 @@ import { useMutation } from "@tanstack/react-query";
 
 const useUpdateNote = () => {
   const [userToken] = useRecoilState(userAtom);
-  const updateNote = (id: string, data: Note) =>
-    instance.put(endPoints.notes + `/${id}`, data, {
+  const updateNote = ({ id, title, content }: { id: string, title: string, content: string }) =>
+    instance.put(endPoints.notes + `/${id}`, { title: title, content: content }, {
       headers: {
         token: `3b8ny__${userToken}`,
       },
     });
-  return useMutation(updateNote);
+  return useMutation({ mutationFn: updateNote })
 };
 
 export default useUpdateNote;
