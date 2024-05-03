@@ -1,12 +1,20 @@
-import React, { ChangeEvent, useRef, useState } from 'react'
+import { ChangeEvent, useRef, useState } from 'react'
 import Note from '../../interfaces/note';
 import useDeleteNote from '../../hooks/useDeleteNote';
 import { useQueryClient } from '@tanstack/react-query';
 import useUpdateNote from '../../hooks/useUpdateNote';
+import Loading from '../common/Loading';
+import { toast } from 'react-hot-toast';
 
 const ModifyNoteModal = ({ note }: { note: Note }) => {
     const [title, setTitle] = useState(note.title);
     const [content, setContent] = useState(note.content);
+    const queryClient = useQueryClient();
+    const closeBtnRef = useRef<HTMLButtonElement>(null);
+    const handleFinish = (): void => {
+        queryClient.invalidateQueries({ queryKey: ['notes'] })
+        closeBtnRef.current?.click();
+    }
 
     const handleTitleChange = (e: ChangeEvent<HTMLInputElement>) => {
         setTitle(e.target.value)
@@ -15,21 +23,30 @@ const ModifyNoteModal = ({ note }: { note: Note }) => {
         setContent(e.target.value);
     }
 
-    const queryClient = useQueryClient();
-    const closeBtnRef = useRef<HTMLButtonElement>(null);
-    const { mutate: deleteNote, isPending: isDeletePending, error: deleteError } = useDeleteNote();
+    const { mutate: deleteNote, isPending: isDeletePending } = useDeleteNote();
+    const { mutate: updateNote, isPending: isUpdatePending } = useUpdateNote();
+
     const handleDelete = () => {
         deleteNote(note._id!, {
             onSuccess: () => {
-                queryClient.invalidateQueries({ queryKey: ['notes'] })
-                closeBtnRef.current?.click();
-            }, onError: (error) => {
-                console.log(error);
-
+                handleFinish()
+            }, onError: () => {
+                toast.error('Something Went Wrong');
             }
         });
     }
 
+    const handleUpdate = () => {
+        updateNote({ id: note._id, title: note.title, content: note.content }, {
+            onSuccess: () => {
+                handleFinish()
+            }, onError: (error) => {
+                console.log(error);
+                
+                toast.error('Something Went Wrong');
+            }
+        })
+    }
 
     return <>
         <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
@@ -37,8 +54,8 @@ const ModifyNoteModal = ({ note }: { note: Note }) => {
                 <input type="text" className='input input-bordered w-full max-w-xs' value={title} onChange={handleTitleChange} />
                 <textarea value={content} onChange={handleChangeContent} className="textarea textarea-bordered textarea-lg w-full max-w-xs" ></textarea>
                 <div className="modal-action">
-                    <button className="btn btn-primary">Save</button>
-                    <button onClick={handleDelete} disabled={isDeletePending} className="btn btn-error">Delete</button>
+                    <button onClick={handleUpdate} disabled={isUpdatePending} className="btn btn-primary">{isUpdatePending ? <Loading /> : 'Update'}</button>
+                    <button onClick={handleDelete} disabled={isDeletePending} className="btn btn-error">{isDeletePending ? <Loading /> : 'Delete'}</button>
 
                     <form method="dialog">
                         {/* if there is a button in form, it will close the modal */}
