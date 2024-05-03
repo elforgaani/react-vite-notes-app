@@ -13,7 +13,7 @@ export default {
     daisyui,
   ],
   daisyui: {
-    themes: ["pastel"],
+    themes: ["nord"],
     base: false,
     utils: true
   },
