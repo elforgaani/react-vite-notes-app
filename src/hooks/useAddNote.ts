@@ -1,15 +1,16 @@
 import { useRecoilState } from "recoil";
 import instance from "../api/apiConfix";
 import { endPoints } from "../api/apiEndpoints";
+import Note from "../interfaces/note";
 import { userAtom } from "../atoms/userAtom";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
-const useGetUserNotes = () => {
+const useAddNote = () => {
   const [userToken] = useRecoilState(userAtom);
-  const getUserNotes = () =>
-    instance.get(endPoints.notes, {
+  const addNote = (body: Note) =>
+    instance.post(endPoints.notes, body, {
       headers: { token: `3b8ny__${userToken}` },
     });
-  return useQuery({ queryKey: ["notes"], queryFn: getUserNotes });
+  return useMutation({ mutationFn: addNote });
 };
-export default useGetUserNotes;
+export default useAddNote;
