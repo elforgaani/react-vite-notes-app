@@ -1,7 +1,7 @@
 import { Link, useNavigate } from 'react-router-dom';
 import img from '../assets/images/sign_up2.svg';
 import { motion } from 'framer-motion';
-import { useSignUpUser } from '../hooks';
+import { useSignUpUser } from '../hooks/useSignUpUser';
 import { object, string } from 'yup';
 import { useFormik } from 'formik';
 import { paths } from '../router/app_router';
@@ -9,8 +9,6 @@ import WarningAlert from '../components/common/WarningAlert';
 import ErrorAlert from '../components/common/ErrorAlert';
 import SignUpFormFields from '../interfaces/formField';
 import toast from 'react-hot-toast';
-
-
 
 export const SignUp = () => {
   const navigator = useNavigate();
@@ -34,7 +32,7 @@ export const SignUp = () => {
       opacity: 1
     }
   };
-  const { mutate, error, isPending } = useSignUpUser();
+  const { mutate, error, isPending  } = useSignUpUser();
   const validationSchema = object({
     name: string().required().min(4).max(30),
     email: string().required().email(),
@@ -59,7 +57,6 @@ export const SignUp = () => {
 
 
   return <>
-
     <div className='flex justify-center items-center min-h-screen w-full p-8 bg-base-100 bg-gradient-to-b from-primary to-secondary'>
       <form onSubmit={formik.handleSubmit}>
         <div className='flex flex-col'>
@@ -108,4 +105,3 @@ export const SignUp = () => {
     </div>
   </>
 }
-
