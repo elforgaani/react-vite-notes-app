@@ -1,5 +1,5 @@
 
-import { createBrowserRouter, RouteObject } from "react-router-dom";
+import { createBrowserRouter, createHashRouter, RouteObject } from "react-router-dom";
 
 import { Home, NotFound, SignIn, SignUp } from "../pages";
 import { AuthLayout, MainLayout } from "../layouts";
@@ -31,6 +31,6 @@ const routes: RouteObject[] = [
     }
 ];
 
-export const router = createBrowserRouter(routes);
+export const router = createHashRouter(routes);
 
 export default router;

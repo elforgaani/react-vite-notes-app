@@ -9,6 +9,7 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
+  "homepage" : "./",
   "dependencies": {
     "@tanstack/react-query": "^5.32.1",
     "axios": "^1.6.8",
