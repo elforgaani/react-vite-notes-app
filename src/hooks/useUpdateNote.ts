@@ -1,6 +1,5 @@
 import { useRecoilState } from "recoil";
 import { userAtom } from "../atoms/userAtom";
-import Note from "../interfaces/note";
 import instance from "../api/apiConfix";
 import { endPoints } from "../api/apiEndpoints";
 import { useMutation } from "@tanstack/react-query";

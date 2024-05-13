@@ -12,6 +12,7 @@ import toast from 'react-hot-toast';
 
 export const SignUp = () => {
   const navigator = useNavigate();
+  
   const container = {
     hidden: { opacity: 1, scale: 0 },
     visible: {
@@ -101,7 +102,6 @@ export const SignUp = () => {
           </motion.div>
         </div>
       </form>
-      <button className='btn btn-circle' onClick={() => toast.success('Done')}>Press Me</button>
     </div>
   </>
 }
