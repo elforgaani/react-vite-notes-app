@@ -1,5 +1,5 @@
 
-import { createBrowserRouter, createHashRouter, RouteObject } from "react-router-dom";
+import { createHashRouter, RouteObject } from "react-router-dom";
 
 import { Home, NotFound, SignIn, SignUp } from "../pages";
 import { AuthLayout, MainLayout } from "../layouts";

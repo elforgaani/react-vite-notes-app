@@ -5,7 +5,7 @@ import { useEffect } from 'react'
 import { userAtom } from './atoms/userAtom.ts'
 import { useRecoilState } from 'recoil'
 const App = () => {
-  const [userToken, setUserToken] = useRecoilState(userAtom);
+  const [, setUserToken] = useRecoilState(userAtom);
   useEffect(() => {
     setUserToken(localStorage.getItem('token'))
   }, [])

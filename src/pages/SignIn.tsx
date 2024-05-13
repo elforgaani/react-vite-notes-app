@@ -15,7 +15,7 @@ import { userAtom } from '../atoms/userAtom';
 export const SignIn = () => {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [userToken, setUserToken] = useRecoilState(userAtom);
+  const [, setUserToken] = useRecoilState(userAtom);
   const navigator = useNavigate();
   const container = {
     hidden: { opacity: 1, scale: 0 },
