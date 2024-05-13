@@ -5,12 +5,15 @@ import { useQueryClient } from '@tanstack/react-query';
 import useUpdateNote from '../../hooks/useUpdateNote';
 import Loading from '../common/Loading';
 import { toast } from 'react-hot-toast';
+import React from 'react';
 
-const ModifyNoteModal = ({ note }: { note: Note }) => {
+const ModifyNoteModal = ({ note, isModalOpen, setIsModalOpen }: { note: Note, isModalOpen: boolean, setIsModalOpen: React.Dispatch<React.SetStateAction<boolean>> }) => {
+
     const [title, setTitle] = useState(note.title);
     const [content, setContent] = useState(note.content);
     const queryClient = useQueryClient();
     const closeBtnRef = useRef<HTMLButtonElement>(null);
+
     const handleFinish = (): void => {
         queryClient.invalidateQueries({ queryKey: ['notes'] })
         closeBtnRef.current?.click();
@@ -37,33 +40,30 @@ const ModifyNoteModal = ({ note }: { note: Note }) => {
     }
 
     const handleUpdate = () => {
-        updateNote({ id: note._id, title: note.title, content: note.content }, {
+        updateNote({ id: note._id, title, content }, {
             onSuccess: () => {
                 handleFinish()
             }, onError: (error) => {
                 console.log(error);
-                
+
                 toast.error('Something Went Wrong');
             }
         })
     }
-
     return <>
-        <dialog id="my_modal_5" className="modal modal-bottom sm:modal-middle">
-            <div className="modal-box flex flex-col items-center gap-5">
-                <input type="text" className='input input-bordered w-full max-w-xs' value={title} onChange={handleTitleChange} />
-                <textarea value={content} onChange={handleChangeContent} className="textarea textarea-bordered textarea-lg w-full max-w-xs" ></textarea>
-                <div className="modal-action">
-                    <button onClick={handleUpdate} disabled={isUpdatePending} className="btn btn-primary">{isUpdatePending ? <Loading /> : 'Update'}</button>
-                    <button onClick={handleDelete} disabled={isDeletePending} className="btn btn-error">{isDeletePending ? <Loading /> : 'Delete'}</button>
-
-                    <form method="dialog">
-                        {/* if there is a button in form, it will close the modal */}
-                        <button ref={closeBtnRef} className="btn btn-error">Close</button>
-                    </form>
+        {isModalOpen &&
+            <div className='background bg-[rgba(0,0,0,0.2)] absolute flex justify-center items-center top-0 left-0 right-0 bottom-0'>
+                <div className='flex flex-col justify-center items-center bg-slate-50  gap-5 py-16  w-[90%] md:w-[30%]  rounded-xl'>
+                    <input type="text" className='input input-bordered w-full max-w-xs' value={title} onChange={handleTitleChange} />
+                    <textarea value={content} onChange={handleChangeContent} className="textarea textarea-bordered textarea-lg w-full max-w-xs" ></textarea>
+                    <div className="modal-action">
+                        <button onClick={handleUpdate} disabled={isUpdatePending} className="btn btn-primary">{isUpdatePending ? <Loading /> : 'Update'}</button>
+                        <button onClick={handleDelete} disabled={isDeletePending} className="btn btn-error">{isDeletePending ? <Loading /> : 'Delete'}</button>
+                        <button ref={closeBtnRef} onClick={() => setIsModalOpen(false)} className="btn btn-error">Close</button>
+                    </div>
                 </div>
             </div>
-        </dialog>
+        }
     </>
 }
 
