@@ -12,8 +12,11 @@ import { PulseLoader } from 'react-spinners';
 import { useRecoilState } from 'recoil';
 import { userAtom } from '../atoms/userAtom';
 import transitions from '../utils/transitions';
+import { useTranslation } from 'react-i18next';
+import { appStrings } from '../localization/app_strings';
 
 export const SignIn = () => {
+  const { t } = useTranslation();
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [, setUserToken] = useRecoilState(userAtom);
@@ -54,7 +57,7 @@ export const SignIn = () => {
           {error && <motion.div initial={transitions.container.hidden} animate={transitions.container.visible} ><ErrorAlert message={error.message} /></motion.div>}
           <motion.div variants={transitions.container} initial='hidden' animate='visible' className='rounded-xl shadow-xl grid grid-cols-1  md:grid-cols-2 w-full  p-14 md:p-12 bg-base-200 gap-x-4' >
             <div className="login-form flex flex-col justify-center items-center bg-base-200 gap-5">
-              <h2 className=" text-3xl md:text-5xl uppercase text-primary">Notes App</h2>
+              <h2 className=" text-3xl md:text-5xl uppercase text-primary">{t(appStrings.yourNote)}</h2>
               <p>Ready To Write Your Notes ?</p>
               <motion.label variants={transitions.item} className="input focus:outline-neutral focus-within:outline-neutral input-bordered flex items-center gap-2 w-full md:w-[60%] ">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" className="w-4 h-4 opacity-70"><path d="M2.5 3A1.5 1.5 0 0 0 1 4.5v.793c.026.009.051.02.076.032L7.674 8.51c.206.1.446.1.652 0l6.598-3.185A.755.755 0 0 1 15 5.293V4.5A1.5 1.5 0 0 0 13.5 3h-11Z" /><path d="M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z" /></svg>
@@ -70,11 +73,11 @@ export const SignIn = () => {
               {
                 formik.touched.password && formik.errors.password && <WarningAlert message={formik.errors.password} />
               }
-              <motion.button disabled={(!formik.isValid || isPending) ?? false} type='submit' variants={transitions.item} className="btn btn-primary w-full md:w-[30%] text-white  text-sm">{isPending ? <PulseLoader color='white' /> : 'Sign In'}</motion.button>
+              <motion.button disabled={(!formik.isValid || isPending) ?? false} type='submit' variants={transitions.item} className="btn btn-primary w-full md:w-[30%] text-white  text-sm">{isPending ? <PulseLoader color='white' /> : t(appStrings.login)}</motion.button>
               {/* Todo: Need to be edited */}
               <motion.div variants={transitions.item} className='flex flex-col md:flex-row justify-between items-center flex-wrap w-full md:w-[60%]'>
-                <Link to={paths.signUp} className='text-secondary'>Create an account</Link>
-                <Link to='/forget-password' className='text-secondary'>Forget Password?</Link>
+                <Link to={paths.signUp} className='text-secondary'>{t(appStrings.createAccount)}</Link>
+                <Link to='/forget-password' className='text-secondary'>{t(appStrings.forgotPassword)}</Link>
               </motion.div>
             </div>
             <div>
@@ -84,7 +87,6 @@ export const SignIn = () => {
         </div>
       </form>
     </div>
-    {/* <button onClick={()=> toast.success('Wow')}></button> */}
   </>
 }
 

@@ -8,32 +8,44 @@ import { useRecoilState } from "recoil";
 import { userAtom } from "../atoms/userAtom";
 import { CiLogout } from "react-icons/ci";
 import transitions from "../utils/transitions";
+import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
+import { appStrings } from "../localization/app_strings";
 
 
 
 export const Home = () => {
+    const { t } = useTranslation();
     const [, setUserToken] = useRecoilState(userAtom);
     const logOut = () => {
         localStorage.removeItem('token');
         setUserToken(null);
     }
-
+    const changeLanguage = (lang: string): void => {
+        i18n.changeLanguage(lang);
+        document.getElementById('root')?.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+        document.documentElement.lang = lang;
+    }
     const { isLoading, data } = useGetUserNotes();
-
-    // useEffect(() => {
-    //     mutate()
-    // }, [])
+    const locales: { key: string, value: string }[] = [{ key: 'ar', value: 'العربية' }, { key: 'en', value: 'English' }];
     return <>
         <div className='flex justify-center items-center min-h-screen min-w-full bg-gradient-to-b from-primary to-secondary'>
             <motion.section variants={transitions.container} initial='hidden' animate='visible' className='container bg-slate-100  h-[90vh] w-[90%] md:h-[90vh] md:w-[90%] shadow-xl rounded-xl flex flex-col '>
                 <div className="flex justify-end items-center pt-5 px-5">
-                    <h1 className='text-3xl md:text-4xl font-bold text-primary justify-self-center mx-auto text-center '>Your Notes</h1>
+                    <h1 className='text-3xl md:text-4xl font-bold text-primary justify-self-center mx-auto text-center '>{t('your_note')}</h1>
                     <button className="btn btn-accent text-white transition-all rounded-lg " onClick={() => (document.getElementById('add-note-modal') as HTMLDialogElement).showModal()}>
                         <TbPencilPlus className="w-5 h-5" />
-                        <span className="">Add Note</span>
+                        <span className="">{t(appStrings.addNote)}</span>
                     </button>
                     <div className="tooltip" data-tip="Log out">
                         <button onClick={logOut} className="btn btn-error rounded-lg ms-3"><CiLogout color="white" size={25} /></button>
+                    </div>
+                    <div className="dropdown rounded-xl ms-3">
+                        <div tabIndex={0} role="button" className="btn m-1">{t(appStrings.language)}</div>
+                        <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100  w-30 ">
+                            {locales.map((locale) => <li key={locale.key}><button onClick={() => changeLanguage(locale.key)
+                            }>{locale.value}</button></li>)}
+                        </ul>
                     </div>
                 </div>
                 <div className="divider"></div>
@@ -41,9 +53,9 @@ export const Home = () => {
                     {data && data?.data.notes.reverse().map((note: Note) => <motion.div key={note._id} initial={transitions.item.hidden} whileInView={transitions.item.visible}  ><NoteCard note={note} /></motion.div>)}
                     {isLoading && Array.from({ length: 10 }).map((_, index) => <motion.div variants={transitions.item} key={index} className="skeleton w-70 h-52"></motion.div>)}
                 </div>
-            </motion.section>
+            </motion.section >
             <AddNoteModel />
-        </div>
+        </div >
     </>
 }
 
