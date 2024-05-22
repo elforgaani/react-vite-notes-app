@@ -9,7 +9,6 @@ These instructions will get you a copy of the project up and running on your loc
 ### Prerequisites
 
 What things you need to install the software and how to install them:
-
 - Node.js
 - npm or yarn
 
@@ -34,6 +33,7 @@ Please read [CONTRIBUTING.md](CONTRIBUTING.md) for details on our code of conduc
 - Delete notes
 - User authentication (SignIn and SignUp)
 - Page navigation (Home, SignIn, SignUp)
+- Internationalization (i18n)
 
 ## 📄 License
 
@@ -57,6 +57,8 @@ This project uses the following npm packages:
 - [react-spinners](https://www.npmjs.com/package/react-spinners)
 - [recoil](https://www.npmjs.com/package/recoil)
 - [yup](https://www.npmjs.com/package/yup)
+- [react-i18next](https://www.npmjs.com/package/react-i18next)
+
 
 ### Dev Dependencies
 
