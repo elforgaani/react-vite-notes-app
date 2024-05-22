@@ -1,4 +1,4 @@
-import useGetUserNotes from "../hooks/useGetUserNotes"
+import useGetUserNotes from "../hooks/useGetUserNotes";
 import Note from "../interfaces/note";
 import NoteCard from "../components/notes/NoteCard";
 import { motion } from "framer-motion";
@@ -12,16 +12,27 @@ import { useTranslation } from "react-i18next";
 import i18n from 'i18next';
 import { appStrings } from "../localization/app_strings";
 
-
-
+/**
+ * Home component represents the home page of the application.
+ * It displays the user's notes and provides options to add new notes, change language, and log out.
+ */
 export const Home = () => {
     const { t } = useTranslation();
     const currentLang: string = i18n.language;
     const [, setUserToken] = useRecoilState(userAtom);
+
+    /**
+     * Logs out the user by removing the token from local storage and setting the user token to null.
+     */
     const logOut = () => {
         localStorage.removeItem('token');
         setUserToken(null);
     }
+
+    /**
+     * Changes the language of the application.
+     * @param lang The language code to change to.
+     */
     const changeLanguage = (lang: string): void => {
         i18n.changeLanguage(lang);
         document.getElementById('root')?.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
@@ -30,8 +41,10 @@ export const Home = () => {
         console.log(i18n.language);
         localStorage.setItem('lang', lang);
     }
+
     const { isLoading, data } = useGetUserNotes();
     const locales: { key: string, value: string }[] = [{ key: 'ar', value: 'العربية' }, { key: 'en', value: 'English' }];
+
     return <>
         <div className='flex justify-center items-center min-h-screen min-w-full bg-gradient-to-b from-primary to-secondary'>
             <motion.section variants={transitions.container} initial='hidden' animate='visible' className='container bg-slate-100  h-[90vh] w-[90%] md:h-[90vh] md:w-[90%] shadow-xl rounded-xl flex flex-col '>
