@@ -16,6 +16,7 @@ import { appStrings } from "../localization/app_strings";
 
 export const Home = () => {
     const { t } = useTranslation();
+    const currentLang: string = i18n.language;
     const [, setUserToken] = useRecoilState(userAtom);
     const logOut = () => {
         localStorage.removeItem('token');
@@ -25,6 +26,8 @@ export const Home = () => {
         i18n.changeLanguage(lang);
         document.getElementById('root')?.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
         document.documentElement.lang = lang;
+        document.getElementById('lang-dropdown')?.removeAttribute('open');
+        console.log(i18n.language);
     }
     const { isLoading, data } = useGetUserNotes();
     const locales: { key: string, value: string }[] = [{ key: 'ar', value: 'العربية' }, { key: 'en', value: 'English' }];
@@ -37,13 +40,13 @@ export const Home = () => {
                         <TbPencilPlus className="w-5 h-5" />
                         <span className="">{t(appStrings.addNote)}</span>
                     </button>
-                    <div className="tooltip" data-tip="Log out">
+                    <div className="tooltip" data-tip={t(appStrings.logOut)}>
                         <button onClick={logOut} className="btn btn-error rounded-lg ms-3"><CiLogout color="white" size={25} /></button>
                     </div>
-                    <div className="dropdown rounded-xl ms-3">
+                    <div id="lang-dropdown" className="dropdown rounded-xl ms-3">
                         <div tabIndex={0} role="button" className="btn m-1">{t(appStrings.language)}</div>
                         <ul tabIndex={0} className="dropdown-content z-[1] menu p-2 shadow bg-base-100  w-30 ">
-                            {locales.map((locale) => <li key={locale.key}><button onClick={() => changeLanguage(locale.key)
+                            {locales.map((locale) => <li key={locale.key}><button className={currentLang === locale.key ? 'text-primary' : ''} disabled={currentLang === locale.key} onClick={() => changeLanguage(locale.key)
                             }>{locale.value}</button></li>)}
                         </ul>
                     </div>
