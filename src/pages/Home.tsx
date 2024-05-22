@@ -28,6 +28,7 @@ export const Home = () => {
         document.documentElement.lang = lang;
         document.getElementById('lang-dropdown')?.removeAttribute('open');
         console.log(i18n.language);
+        localStorage.setItem('lang', lang);
     }
     const { isLoading, data } = useGetUserNotes();
     const locales: { key: string, value: string }[] = [{ key: 'ar', value: 'العربية' }, { key: 'en', value: 'English' }];

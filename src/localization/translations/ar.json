@@ -1,13 +1,16 @@
 {
-    "your_note" : "ملاحظاتك",
-    "add_note" : "إضافة ملاحظة",
-    "logout" : "تسجيل الخروج",
-    "close" : "إغلاق",
-    "email" : "البريد الإلكتروني",
-    "password" : "كلمة المرور",
-    "login" : "تسجيل الدخول",
-    "create_account" : "إنشاء حساب",
-    "forgot_password" : "نسيت كلمة المرور؟",
-    "uesrname" : "اسم المستخدم",
-    "language" : "اللغة"
+    "your_note": "ملاحظاتك",
+    "add_note": "إضافة ملاحظة",
+    "logout": "تسجيل الخروج",
+    "close": "إغلاق",
+    "email": "البريد الإلكتروني",
+    "password": "كلمة المرور",
+    "login": "تسجيل الدخول",
+    "create_account": "إنشاء حساب",
+    "forgot_password": "نسيت كلمة المرور؟",
+    "uesrname": "اسم المستخدم",
+    "language": "اللغة",
+    "update": "تحديث",
+    "delete": "حذف",
+    "signup": "تسجيل"
 }
